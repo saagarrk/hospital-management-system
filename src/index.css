@@ -1,0 +1,181 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --color-primary: #0F4C81;
+  --color-primary-hover: #0B3B65;
+  --color-secondary: #0E7490;
+  --color-accent: #14B8A6;
+  --color-bg: #F5F9FC;
+  --color-surface: #FFFFFF;
+  --color-text: #0F172A;
+  --color-muted: #64748B;
+  --color-border: #E2E8F0;
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-danger: #DC2626;
+  
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Bootstrap Theme Overrides for Healthcare Blue & Cyan */
+.bg-primary {
+  background-color: #0F4C81 !important;
+}
+
+.text-primary {
+  color: #0F4C81 !important;
+}
+
+.btn-primary {
+  background-color: #0F4C81 !important;
+  border-color: #0F4C81 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #0B3B65 !important;
+  border-color: #0B3B65 !important;
+}
+
+.btn-outline-primary {
+  color: #0F4C81 !important;
+  border-color: #0F4C81 !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0F4C81 !important;
+  border-color: #0F4C81 !important;
+  color: #FFFFFF !important;
+}
+
+.bg-teal {
+  background-color: #0E7490 !important;
+}
+
+.text-teal {
+  color: #0E7490 !important;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Modern Healthcare Palette Utilities */
+.bg-surface {
+  background-color: var(--color-surface) !important;
+}
+
+.bg-canvas {
+  background-color: var(--color-bg) !important;
+}
+
+.text-navy {
+  color: var(--color-text) !important;
+}
+
+.text-muted-custom {
+  color: var(--color-muted) !important;
+}
+
+.border-subtle-custom {
+  border-color: var(--color-border) !important;
+}
+
+.btn-primary-custom {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 500;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-primary-custom:hover,
+.btn-primary-custom:focus {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #ffffff;
+}
+
+.btn-teal-custom {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: #ffffff;
+}
+
+.btn-teal-custom:hover {
+  background-color: #115E59;
+  border-color: #115E59;
+  color: #ffffff;
+}
+
+/* Tabular figures for numbers, counters, timestamps */
+.font-mono,
+.tabular-nums {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sidebar Hover Styles */
+.hover-bg-light:hover {
+  background-color: #F1F5F9;
+  color: var(--color-text) !important;
+}
+
+/* Card Subtle Elevations */
+.card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border-color: var(--color-border);
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Auth split-screen visual background */
+.auth-split-bg {
+  background: linear-gradient(135deg, #0F172A 0%, #0F766E 50%, #2563EB 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-split-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.4;
+}
+
+/* Spin animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

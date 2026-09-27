@@ -1,0 +1,12 @@
+export { authService } from './authService';
+export { dashboardService } from './dashboardService';
+export { mockDataService } from './mockDataService';
+export { appointmentService } from './appointmentService';
+export { patientService } from './patientService';
+export { doctorService } from './doctorService';
+export { medicalRecordService } from './medicalRecordService';
+export { prescriptionService } from './prescriptionService';
+export { pharmacyService } from './pharmacyService';
+export { inpatientService } from './inpatientService';
+export { billingService } from './billingService';
+export { auditService } from './auditService';

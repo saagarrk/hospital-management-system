@@ -1,0 +1,8 @@
+{
+  "name": "MedPulse Hospital Management System",
+  "description": "Comprehensive Hospital Management System (HMS) featuring role-based workflows for Admins, Doctors, Patients, Receptionists, Nurses, Pharmacists, and Lab Techs with Spring Boot & MySQL architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

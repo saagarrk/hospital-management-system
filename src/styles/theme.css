@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Enterprise Hospital Management System - Theme Styles & Utilities
+   Primary: #2563EB | Secondary: #0F766E | Background: #F8FAFC | Surface: #FFFFFF
+   ========================================================================== */
+
+:root {
+  --hms-primary: #2563eb;
+  --hms-primary-hover: #1d4ed8;
+  --hms-secondary: #0f766e;
+  --hms-accent: #14b8a6;
+  --hms-bg: #f8fafc;
+  --hms-surface: #ffffff;
+  --hms-text: #0f172a;
+  --hms-muted: #64748b;
+  --hms-border: #e2e8f0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--hms-bg);
+  color: var(--hms-text);
+}
+
+/* Monospace tabular numerals for metric alignment */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Clean table hover and borders */
+.table-hover > tbody > tr:hover > * {
+  background-color: #f1f5f9;
+}
+
+.table th {
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* Custom scrollbars for high-density clinical lists */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Modal animation and focus */
+.modal.fade .modal-dialog {
+  transition: transform 0.2s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: none;
+}
