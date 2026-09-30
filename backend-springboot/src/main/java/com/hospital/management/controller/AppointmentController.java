@@ -5,6 +5,8 @@ import com.hospital.management.dto.common.ApiResponse;
 import com.hospital.management.dto.common.PagedResponse;
 import com.hospital.management.enums.AppointmentStatus;
 import com.hospital.management.service.AppointmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import java.util.List;
  * Exposes clean RESTful endpoints adhering to RFC standards, appropriate HTTP status codes,
  * and Spring Security role-based access control.
  */
+@Tag(name = "Appointments", description = "OPD consultations, conflict-free scheduling, status lifecycle transitions, and cancellations")
 @RestController
 @RequestMapping("/api/appointments")
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class AppointmentController {
      * POST /api/appointments : Book a new appointment
      * Returns HTTP 201 Created on success, HTTP 409 Conflict if slot is occupied.
      */
+    @Operation(summary = "Book appointment", description = "Schedules an OPD consultation, enforcing doctor conflict checking and temporal constraints.")
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<AppointmentResponse>> bookAppointment(
@@ -50,6 +54,7 @@ public class AppointmentController {
      * PATCH /api/appointments/{id}/confirm : Confirm a pending appointment
      * Restricted to clinical staff/doctors/admin.
      */
+    @Operation(summary = "Confirm appointment", description = "Validates state transition from PENDING to CONFIRMED by authorized staff.")
     @PatchMapping("/{id}/confirm")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR')")
     public ResponseEntity<ApiResponse<AppointmentResponse>> confirmAppointment(
@@ -63,6 +68,7 @@ public class AppointmentController {
      * PUT /api/appointments/{id}/reschedule : Reschedule an existing appointment
      * Validates conflicts (HTTP 409) and doctor schedule.
      */
+    @Operation(summary = "Reschedule appointment", description = "Re-allocates appointment date and time slot with conflict detection.")
     @PutMapping("/{id}/reschedule")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<AppointmentResponse>> rescheduleAppointment(
@@ -76,6 +82,7 @@ public class AppointmentController {
      * PATCH /api/appointments/{id}/cancel : Cancel an appointment
      * Terminal state transition.
      */
+    @Operation(summary = "Cancel appointment", description = "Transitions appointment to CANCELLED state with recorded clinical reason.")
     @PatchMapping("/{id}/cancel")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<AppointmentResponse>> cancelAppointment(
@@ -90,6 +97,7 @@ public class AppointmentController {
      * Enforces Rule 3: Cancelled appointments cannot become completed.
      * Restricted to attending doctors or clinical staff.
      */
+    @Operation(summary = "Complete appointment", description = "Marks consultation as completed. Cancelled appointments cannot be completed.")
     @PatchMapping("/{id}/complete")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR')")
     public ResponseEntity<ApiResponse<AppointmentResponse>> completeAppointment(
@@ -102,6 +110,7 @@ public class AppointmentController {
     /**
      * GET /api/appointments/doctor/{doctorId}/availability : Check doctor slot availability
      */
+    @Operation(summary = "Check doctor availability", description = "Calculates available 30-min OPD consultation slots for doctor on requested date.")
     @GetMapping("/doctor/{doctorId}/availability")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<DoctorAvailabilityResponse>> checkDoctorAvailability(
@@ -115,6 +124,7 @@ public class AppointmentController {
      * GET /api/appointments/patient/{patientId}/history : Appointment history for patient
      * Protected by patient record isolation.
      */
+    @Operation(summary = "Get patient appointment history", description = "Retrieves complete chronological appointment history for a patient.")
     @GetMapping("/patient/{patientId}/history")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<AppointmentHistoryResponse>> getPatientAppointmentHistory(
@@ -126,6 +136,7 @@ public class AppointmentController {
     /**
      * GET /api/appointments/patient/{patientId} : List of appointments for patient
      */
+    @Operation(summary = "List patient appointments", description = "Lists active and past appointments for given patient.")
     @GetMapping("/patient/{patientId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<List<AppointmentResponse>>> getAppointmentsByPatient(
@@ -137,6 +148,7 @@ public class AppointmentController {
     /**
      * GET /api/appointments/{id} : View single appointment
      */
+    @Operation(summary = "Get appointment by ID", description = "Retrieves detailed appointment record with doctor and patient metadata.")
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<AppointmentResponse>> getAppointmentById(@PathVariable Long id) {
@@ -147,6 +159,7 @@ public class AppointmentController {
     /**
      * GET /api/appointments : Search and filter appointments with pagination
      */
+    @Operation(summary = "Search appointments with pagination", description = "Search and filter appointments by doctor, patient, date range, status with Pageable.")
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'PATIENT')")
     public ResponseEntity<ApiResponse<PagedResponse<AppointmentResponse>>> searchAppointments(

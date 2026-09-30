@@ -1,18 +1,24 @@
 /* ==========================================================================
    Enterprise Hospital Management System - Theme Styles & Utilities
-   Primary: #2563EB | Secondary: #0F766E | Background: #F8FAFC | Surface: #FFFFFF
+   Primary: #0B5C75 | Primary Dark: #084C61 | Secondary: #0F766E | Accent: #14B8A6
+   Background: #F4F8FA | Surface: #FFFFFF | Border: #D9E5EA
    ========================================================================== */
 
 :root {
-  --hms-primary: #2563eb;
-  --hms-primary-hover: #1d4ed8;
-  --hms-secondary: #0f766e;
-  --hms-accent: #14b8a6;
-  --hms-bg: #f8fafc;
-  --hms-surface: #ffffff;
-  --hms-text: #0f172a;
-  --hms-muted: #64748b;
-  --hms-border: #e2e8f0;
+  --hms-primary: #0B5C75;
+  --hms-primary-dark: #084C61;
+  --hms-primary-light: #E6F4F7;
+  --hms-secondary: #0F766E;
+  --hms-accent: #14B8A6;
+  --hms-bg: #F4F8FA;
+  --hms-surface: #FFFFFF;
+  --hms-text: #172B4D;
+  --hms-muted: #64748B;
+  --hms-border: #D9E5EA;
+  --hms-success: #16A34A;
+  --hms-warning: #D97706;
+  --hms-danger: #DC2626;
+  --hms-info: #0284C7;
 }
 
 body {
@@ -28,7 +34,7 @@ body {
 
 /* Clean table hover and borders */
 .table-hover > tbody > tr:hover > * {
-  background-color: #f1f5f9;
+  background-color: #F4FAFB;
 }
 
 .table th {
@@ -43,23 +49,19 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F4F8FA;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #D9E5EA;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #94A3B8;
 }
 
 /* Modal animation and focus */
 .modal.fade .modal-dialog {
   transition: transform 0.2s ease-out;
-}
-
-.modal.show .modal-dialog {
-  transform: none;
 }

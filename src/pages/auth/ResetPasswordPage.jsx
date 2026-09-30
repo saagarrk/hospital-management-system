@@ -73,7 +73,7 @@ export const ResetPasswordPage = () => {
         icon: 'success',
         title: 'Password Updated',
         text: msg || 'Your password has been successfully reset. Please log in with your new credentials.',
-        confirmButtonColor: '#2563EB',
+        confirmButtonColor: '#0B5C75',
       }).then(() => {
         navigate('/login');
       });

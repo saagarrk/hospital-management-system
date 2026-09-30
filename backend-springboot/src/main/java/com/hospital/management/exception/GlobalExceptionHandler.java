@@ -91,6 +91,12 @@ public class GlobalExceptionHandler {
     // 400 BAD REQUEST HANDLERS
     // =========================================================================
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, HttpServletRequest request) {
+        log.warn("Bad request on {}: {}", request.getRequestURI(), ex.getMessage());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI(), null);
+    }
+
     @ExceptionHandler(InvalidStatusTransitionException.class)
     public ResponseEntity<ErrorResponse> handleInvalidStatusTransition(InvalidStatusTransitionException ex, HttpServletRequest request) {
         log.warn("Invalid lifecycle status transition on {}: {}", request.getRequestURI(), ex.getMessage());
@@ -178,6 +184,12 @@ public class GlobalExceptionHandler {
     // =========================================================================
     // 401 UNAUTHORIZED HANDLERS
     // =========================================================================
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex, HttpServletRequest request) {
+        log.warn("Unauthorized request on {}: {}", request.getRequestURI(), ex.getMessage());
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getRequestURI(), null);
+    }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex, HttpServletRequest request) {

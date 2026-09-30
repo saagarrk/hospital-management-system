@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { mockDataService } from '../../services/mockDataService';
 import { RuleBadge } from '../common/RuleBadge';
@@ -28,6 +29,7 @@ import Swal from 'sweetalert2';
 
 export const AppointmentModule = () => {
   const { currentUser, hasRole } = useAuth();
+  const [searchParams] = useSearchParams();
 
   // Active view tab: 'list' or 'availability'
   const [activeViewTab, setActiveViewTab] = useState('list');
@@ -45,6 +47,33 @@ export const AppointmentModule = () => {
   // Doctors & Patients store
   const doctors = mockDataService.getDoctors();
   const patients = mockDataService.getPatients();
+
+  // Sync with searchParams on mount
+  useEffect(() => {
+    const filterParam = searchParams.get('filter') || searchParams.get('status');
+    if (filterParam) {
+      if (filterParam.toLowerCase() === 'today') {
+        setDateFilter(new Date().toISOString().split('T')[0]);
+      } else if (['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED'].includes(filterParam.toUpperCase())) {
+        setStatusFilter(filterParam.toUpperCase());
+      }
+    }
+  }, [searchParams]);
+
+  // Unique departments list
+  const departments = useMemo(() => {
+    const list = doctors.map((d) => d.departmentName || d.specialization);
+    return ['ALL', ...Array.from(new Set(list))];
+  }, [doctors]);
+
+  const [bookingDepartment, setBookingDepartment] = useState('ALL');
+
+  const filteredBookingDoctors = useMemo(() => {
+    if (bookingDepartment === 'ALL') return doctors;
+    return doctors.filter(
+      (d) => (d.departmentName || d.specialization) === bookingDepartment
+    );
+  }, [doctors, bookingDepartment]);
 
   // If authenticated as a PATIENT, identify their linked patient profile
   const authenticatedPatient = useMemo(() => {
@@ -725,7 +754,7 @@ export const AppointmentModule = () => {
                         </div>
                         {appt.consultationFee && (
                           <div className="text-success fw-medium" style={{ fontSize: '0.7rem' }}>
-                            Fee: ${Number(appt.consultationFee).toFixed(2)}
+                            Fee: ₹{Number(appt.consultationFee).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                           </div>
                         )}
                       </td>
@@ -1036,9 +1065,98 @@ export const AppointmentModule = () => {
               </div>
               <form onSubmit={handleBookSubmit}>
                 <div className="modal-body p-4 space-y-3">
-                  {/* Patient Selection */}
+                  {/* Step 1: Department Selection */}
                   <div>
-                    <label className="form-label small fw-semibold">Patient Record *</label>
+                    <label className="form-label small fw-semibold text-slate-700">1. Clinical Department</label>
+                    <select
+                      className="form-select form-select-sm"
+                      value={bookingDepartment}
+                      onChange={(e) => {
+                        setBookingDepartment(e.target.value);
+                        const filtered = doctors.filter(
+                          (d) => e.target.value === 'ALL' || (d.departmentName || d.specialization) === e.target.value
+                        );
+                        if (filtered.length > 0) {
+                          setBookForm((prev) => ({ ...prev, doctorId: String(filtered[0].id) }));
+                        }
+                      }}
+                    >
+                      {departments.map((dept) => (
+                        <option key={dept} value={dept}>
+                          {dept === 'ALL' ? 'All Hospital Departments' : dept}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Step 2: Doctor Selection */}
+                  <div>
+                    <label className="form-label small fw-semibold text-slate-700">2. Attending Doctor *</label>
+                    <select
+                      className="form-select form-select-sm"
+                      value={bookForm.doctorId}
+                      onChange={(e) => setBookForm({ ...bookForm, doctorId: e.target.value })}
+                      required
+                    >
+                      {filteredBookingDoctors.map((d) => (
+                        <option key={d.id} value={d.id}>
+                          {d.name} ({d.specialization} · OPD Room: {d.roomNumber})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Step 3: Date & Step 4: Interactive Time Slots */}
+                  <div>
+                    <label className="form-label small fw-semibold text-slate-700">3. Consultation Date *</label>
+                    <input
+                      type="date"
+                      className="form-control form-control-sm mb-3"
+                      value={bookForm.appointmentDate}
+                      min={new Date().toISOString().split('T')[0]}
+                      onChange={(e) => setBookForm({ ...bookForm, appointmentDate: e.target.value })}
+                      required
+                    />
+
+                    <label className="form-label small fw-semibold text-slate-700 mb-1 d-flex justify-content-between">
+                      <span>4. Select Time Slot *</span>
+                      <span className="text-primary font-mono small">
+                        Selected: {bookForm.appointmentTime?.substring(0, 5)}
+                      </span>
+                    </label>
+                    <div className="d-flex flex-wrap gap-1.5 p-2 bg-slate-50 border border-slate-200 rounded-2 mb-3">
+                      {[
+                        { time: '09:00:00', label: '09:00 AM' },
+                        { time: '09:30:00', label: '09:30 AM' },
+                        { time: '10:00:00', label: '10:00 AM' },
+                        { time: '10:30:00', label: '10:30 AM' },
+                        { time: '11:00:00', label: '11:00 AM' },
+                        { time: '11:30:00', label: '11:30 AM' },
+                        { time: '14:00:00', label: '02:00 PM' },
+                        { time: '14:30:00', label: '02:30 PM' },
+                        { time: '15:00:00', label: '03:00 PM' },
+                        { time: '15:30:00', label: '03:30 PM' },
+                        { time: '16:00:00', label: '04:00 PM' },
+                        { time: '16:30:00', label: '04:30 PM' },
+                      ].map((slot) => {
+                        const isSelected = bookForm.appointmentTime === slot.time;
+                        return (
+                          <button
+                            key={slot.time}
+                            type="button"
+                            onClick={() => setBookForm({ ...bookForm, appointmentTime: slot.time })}
+                            className={`time-slot-btn ${isSelected ? 'selected' : ''}`}
+                          >
+                            {slot.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Step 5: Patient Selection */}
+                  <div>
+                    <label className="form-label small fw-semibold text-slate-700">5. Patient Record *</label>
                     {hasRole('PATIENT') && authenticatedPatient ? (
                       <input
                         type="text"
@@ -1060,57 +1178,6 @@ export const AppointmentModule = () => {
                         ))}
                       </select>
                     )}
-                  </div>
-
-                  {/* Doctor Selection */}
-                  <div>
-                    <label className="form-label small fw-semibold">Attending Doctor *</label>
-                    <select
-                      className="form-select form-select-sm"
-                      value={bookForm.doctorId}
-                      onChange={(e) => setBookForm({ ...bookForm, doctorId: e.target.value })}
-                      required
-                    >
-                      {doctors.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.name} ({d.specialization} - Room: {d.roomNumber})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Date & Time Slot */}
-                  <div className="row g-2">
-                    <div className="col-6">
-                      <label className="form-label small fw-semibold">Date *</label>
-                      <input
-                        type="date"
-                        className="form-control form-control-sm"
-                        value={bookForm.appointmentDate}
-                        onChange={(e) => setBookForm({ ...bookForm, appointmentDate: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="col-6">
-                      <label className="form-label small fw-semibold">Time Slot *</label>
-                      <select
-                        className="form-select form-select-sm font-monospace"
-                        value={bookForm.appointmentTime}
-                        onChange={(e) => setBookForm({ ...bookForm, appointmentTime: e.target.value })}
-                        required
-                      >
-                        <option value="09:00:00">09:00 AM</option>
-                        <option value="09:30:00">09:30 AM</option>
-                        <option value="10:00:00">10:00 AM (Dr 1 Conflict)</option>
-                        <option value="10:30:00">10:30 AM</option>
-                        <option value="11:00:00">11:00 AM</option>
-                        <option value="11:30:00">11:30 AM</option>
-                        <option value="14:00:00">02:00 PM</option>
-                        <option value="14:30:00">02:30 PM</option>
-                        <option value="15:00:00">03:00 PM</option>
-                        <option value="15:30:00">03:30 PM</option>
-                      </select>
-                    </div>
                   </div>
 
                   {/* Clinical Reason */}

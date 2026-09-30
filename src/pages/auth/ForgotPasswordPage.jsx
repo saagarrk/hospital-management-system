@@ -30,7 +30,7 @@ export const ForgotPasswordPage = () => {
         icon: 'success',
         title: 'Dispatch Initiated',
         text: res.message || 'If that email address exists in our database, a password reset link has been dispatched.',
-        confirmButtonColor: '#2563EB',
+        confirmButtonColor: '#0B5C75',
       });
     } catch (err) {
       setErrorMessage(err.message || 'Failed to dispatch password recovery request.');

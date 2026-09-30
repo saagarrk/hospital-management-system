@@ -471,7 +471,7 @@ export const BillingModule = () => {
       case 'ROOM_CHARGE':
         return <span className="badge bg-info-subtle text-info-emphasis border border-info-subtle">ROOM CHARGE</span>;
       case 'LAB_TEST':
-        return <span className="badge bg-purple-subtle text-dark border" style={{ backgroundColor: '#f3e8ff' }}>LABORATORY</span>;
+        return <span className="badge bg-primary-subtle text-primary border border-primary-subtle">LABORATORY</span>;
       case 'MEDICINE':
         return <span className="badge bg-emerald-subtle text-success border border-success-subtle">MEDICINE</span>;
       case 'PROCEDURE':

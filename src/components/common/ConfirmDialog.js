@@ -9,8 +9,8 @@ export const confirmDialog = async ({
   confirmButtonText = 'Yes, Proceed',
   cancelButtonText = 'Cancel',
   icon = 'warning',
-  confirmButtonColor = '#2563eb', // primary brand color
-  cancelButtonColor = '#64748b',
+  confirmButtonColor = '#0B5C75', // primary healthcare brand color
+  cancelButtonColor = '#64748B',
 }) => {
   const result = await Swal.fire({
     title,

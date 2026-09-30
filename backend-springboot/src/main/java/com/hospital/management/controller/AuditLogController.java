@@ -1,8 +1,10 @@
 package com.hospital.management.controller;
 
-import com.hospital.management.dto.ApiResponse;
+import com.hospital.management.dto.common.ApiResponse;
 import com.hospital.management.dto.audit.AuditLogResponse;
 import com.hospital.management.service.AuditLogService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import java.util.List;
  * Enterprise Audit Log REST Controller.
  * Restricted strictly to system ADMINISTRATORS for security compliance and audit oversight.
  */
+@Tag(name = "Audit Logs", description = "HIPAA/NABH compliant regulatory audit trail capturing all system mutations")
 @RestController
 @RequestMapping("/api/admin/audit-logs")
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class AuditLogController {
 
     private final AuditLogService auditLogService;
 
+    @Operation(summary = "Search system audit logs", description = "Retrieves filtered and paginated audit trail by username, action, entity, and timestamp range.")
     @GetMapping
     public ResponseEntity<ApiResponse<Page<AuditLogResponse>>> getAuditLogs(
             @RequestParam(required = false) String username,
@@ -39,6 +43,7 @@ public class AuditLogController {
         return ResponseEntity.ok(ApiResponse.success(logs, "Audit logs retrieved successfully"));
     }
 
+    @Operation(summary = "Get recent audit activity", description = "Returns most recent audit events across the hospital application.")
     @GetMapping("/recent")
     public ResponseEntity<ApiResponse<List<AuditLogResponse>>> getRecentLogs(
             @RequestParam(defaultValue = "15") int limit
@@ -47,12 +52,14 @@ public class AuditLogController {
         return ResponseEntity.ok(ApiResponse.success(recent, "Recent audit logs retrieved successfully"));
     }
 
+    @Operation(summary = "Get registered audit actions", description = "Returns list of all trackable audit actions (LOGIN, APPOINTMENT_CREATED, etc.).")
     @GetMapping("/actions")
     public ResponseEntity<ApiResponse<List<String>>> getAvailableActions() {
         List<String> actions = auditLogService.getAvailableActions();
         return ResponseEntity.ok(ApiResponse.success(actions, "Available actions retrieved"));
     }
 
+    @Operation(summary = "Get trackable entity types", description = "Returns list of domain entities audited (USER, PATIENT, BILL, etc.).")
     @GetMapping("/entity-types")
     public ResponseEntity<ApiResponse<List<String>>> getAvailableEntityTypes() {
         List<String> entityTypes = auditLogService.getAvailableEntityTypes();

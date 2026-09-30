@@ -41,6 +41,23 @@ export const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Password strength calculator
+  const getPasswordStrength = (pass) => {
+    if (!pass) return { score: 0, label: '', color: '#E2E8F0', width: '0%' };
+    let score = 0;
+    if (pass.length >= 8) score += 1;
+    if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score += 1;
+    if (/\d/.test(pass)) score += 1;
+    if (/[^A-Za-z0-9]/.test(pass)) score += 1;
+
+    if (score <= 1) return { score: 1, label: 'Weak', color: '#DC2626', width: '25%' };
+    if (score === 2) return { score: 2, label: 'Fair', color: '#D97706', width: '50%' };
+    if (score === 3) return { score: 3, label: 'Good', color: '#0284C7', width: '75%' };
+    return { score: 4, label: 'Strong', color: '#16A34A', width: '100%' };
+  };
+
+  const passwordStrength = getPasswordStrength(formData.password);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -104,7 +121,7 @@ export const RegisterPage = () => {
         icon: 'success',
         title: 'Registration Successful!',
         text: `Patient profile registered under code ${user.patientCode || 'P-100X'}. Please sign in to access your portal.`,
-        confirmButtonColor: '#0F4C81',
+        confirmButtonColor: '#0B5C75',
       }).then(() => {
         navigate('/login');
       });
@@ -331,7 +348,14 @@ export const RegisterPage = () => {
 
               {/* Password */}
               <div className="col-12 col-sm-6">
-                <label className="form-label fw-semibold text-slate-700 small mb-1">Create Password *</label>
+                <div className="d-flex align-items-center justify-content-between mb-1">
+                  <label className="form-label fw-semibold text-slate-700 small mb-0">Create Password *</label>
+                  {formData.password && (
+                    <span className="small font-mono fw-semibold" style={{ color: passwordStrength.color, fontSize: '0.72rem' }}>
+                      {passwordStrength.label}
+                    </span>
+                  )}
+                </div>
                 <div className="input-group">
                   <span className="input-group-text bg-slate-50 border-slate-200 text-muted">
                     <Lock size={16} />
@@ -353,11 +377,34 @@ export const RegisterPage = () => {
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
+                {/* Password strength meter */}
+                <div className="password-strength-track">
+                  <div
+                    className="password-strength-fill"
+                    style={{
+                      width: passwordStrength.width,
+                      backgroundColor: passwordStrength.color,
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Confirm Password */}
               <div className="col-12 col-sm-6">
-                <label className="form-label fw-semibold text-slate-700 small mb-1">Confirm Password *</label>
+                <div className="d-flex align-items-center justify-content-between mb-1">
+                  <label className="form-label fw-semibold text-slate-700 small mb-0">Confirm Password *</label>
+                  {formData.confirmPassword && (
+                    <span
+                      className="small fw-semibold"
+                      style={{
+                        color: formData.password === formData.confirmPassword ? '#16A34A' : '#DC2626',
+                        fontSize: '0.72rem',
+                      }}
+                    >
+                      {formData.password === formData.confirmPassword ? '✓ Match' : '✗ No Match'}
+                    </span>
+                  )}
+                </div>
                 <div className="input-group">
                   <span className="input-group-text bg-slate-50 border-slate-200 text-muted">
                     <Lock size={16} />
@@ -390,7 +437,7 @@ export const RegisterPage = () => {
               {loading ? (
                 <>
                   <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span>Registering Patient Account...</span>
+                  <span>Creating Account...</span>
                 </>
               ) : (
                 <>
@@ -402,7 +449,7 @@ export const RegisterPage = () => {
 
             <div className="text-center text-muted small mt-3">
               Already have an account?{' '}
-              <Link to="/login" className="text-primary fw-semibold text-decoration-none">
+              <Link to="/login" className="fw-semibold text-decoration-none" style={{ color: '#0F766E' }}>
                 Sign In
               </Link>
             </div>

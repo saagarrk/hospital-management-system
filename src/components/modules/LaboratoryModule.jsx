@@ -287,7 +287,7 @@ export const LaboratoryModule = () => {
       case 'IN_PROGRESS':
         return <span className="badge bg-primary font-monospace">4. PROCESSING</span>;
       case 'RESULT_ENTERED':
-        return <span className="badge bg-indigo text-white font-monospace" style={{ backgroundColor: '#6610f2' }}>5. RESULTS ENTERED</span>;
+        return <span className="badge font-monospace text-white" style={{ backgroundColor: '#0F766E' }}>5. RESULTS ENTERED</span>;
       case 'COMPLETED':
         return <span className="badge bg-success font-monospace">6. REPORT FINALIZED</span>;
       case 'CANCELLED':
@@ -438,7 +438,7 @@ export const LaboratoryModule = () => {
               <span className="text-muted small fw-semibold">Awaiting Sign-Off</span>
               <Activity size={18} className="text-primary" />
             </div>
-            <div className="fs-4 fw-bold text-indigo" style={{ color: '#6610f2' }}>
+            <div className="fs-4 fw-bold" style={{ color: '#0B5C75' }}>
               {labSummary.resultEnteredCount}
             </div>
             <div className="text-muted small mt-1" style={{ fontSize: '0.72rem' }}>Results entered, ready</div>
@@ -774,8 +774,8 @@ export const LaboratoryModule = () => {
                                   setSelectedTestForResults(test);
                                   setShowResultsModal(true);
                                 }}
-                                className="btn btn-indigo btn-sm p-1 px-2 text-white"
-                                style={{ backgroundColor: '#6610f2' }}
+                                className="btn btn-primary btn-sm p-1 px-2 text-white"
+                                style={{ backgroundColor: '#0B5C75', borderColor: '#0B5C75' }}
                                 title="Enter Diagnostic Findings (Tech only)"
                               >
                                 Record Results
@@ -964,8 +964,8 @@ export const LaboratoryModule = () => {
                                   setSelectedTestForResults(t);
                                   setShowResultsModal(true);
                                 }}
-                                className="btn btn-indigo btn-sm p-1 px-2 text-white"
-                                style={{ backgroundColor: '#6610f2', fontSize: '0.72rem' }}
+                                className="btn btn-primary btn-sm p-1 px-2 text-white"
+                                style={{ backgroundColor: '#0B5C75', borderColor: '#0B5C75', fontSize: '0.72rem' }}
                               >
                                 Record Results
                               </button>
@@ -1701,7 +1701,7 @@ export const LaboratoryModule = () => {
                   <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowResultsModal(false)}>
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-indigo btn-sm px-4 text-white" style={{ backgroundColor: '#6610f2' }}>
+                  <button type="submit" className="btn btn-primary btn-sm px-4 text-white">
                     Commit Findings (SRS Rule 6)
                   </button>
                 </div>

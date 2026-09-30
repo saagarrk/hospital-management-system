@@ -250,26 +250,71 @@ export const AuthProvider = ({ children }) => {
     return 'Password has been successfully reset. Please log in with your new password.';
   };
 
-  // Logout
-  const logout = async () => {
+  // Internal storage and token purge
+  const performLogout = async () => {
     try {
       await authService.logout();
     } catch {
-      // Silent error
+      // Silent catch
     }
     setCurrentUser(null);
+    sessionStorage.removeItem('hms_session_active');
+    sessionStorage.clear();
     localStorage.removeItem('hms_user');
     localStorage.removeItem('hms_jwt_token');
+  };
 
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      icon: 'success',
-      title: 'Logged Out',
-      text: 'Session successfully ended.',
-      showConfirmButton: false,
-      timer: 2000,
+  // Centralized SweetAlert2 Confirmation Sign Out Flow
+  const confirmLogout = async (navigateCallback, onBeforeLogout) => {
+    const result = await Swal.fire({
+      title: 'Sign out?',
+      text: 'Are you sure you want to sign out of your account?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Sign Out',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#DC2626',
+      cancelButtonColor: '#64748B',
+      reverseButtons: true,
+      focusCancel: true,
     });
+
+    if (result.isConfirmed) {
+      if (typeof onBeforeLogout === 'function') {
+        try {
+          onBeforeLogout();
+        } catch {
+          // ignore
+        }
+      }
+
+      await performLogout();
+
+      if (typeof navigateCallback === 'function') {
+        navigateCallback();
+      } else {
+        window.location.replace('/login');
+      }
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Signed out successfully',
+        text: 'You have been safely signed out.',
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+      });
+
+      return true;
+    }
+
+    return false;
+  };
+
+  // Logout delegates to confirmLogout for unified security
+  const logout = async (navigateCallback, onBeforeLogout) => {
+    return confirmLogout(navigateCallback, onBeforeLogout);
   };
 
   // Role switching is strictly disabled per enterprise security rules; users must authenticate
@@ -309,6 +354,7 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         resetPassword,
         logout,
+        confirmLogout,
         switchRole,
         updateProfile,
         isAuthenticated,

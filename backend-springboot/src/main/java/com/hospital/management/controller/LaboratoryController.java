@@ -7,6 +7,8 @@ import com.hospital.management.enums.LabTestCategory;
 import com.hospital.management.enums.LabTestStatus;
 import com.hospital.management.service.LaboratoryService;
 import com.hospital.management.util.SecurityUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Laboratory", description = "Pathology/radiology test orders, sample collection tracking, technician assignment, and diagnostic reports")
 @RestController
-@RequestMapping("/api/lab")
+@RequestMapping({"/api/lab", "/api/laboratory"})
 @RequiredArgsConstructor
 public class LaboratoryController {
 
@@ -35,6 +38,7 @@ public class LaboratoryController {
      * Create a new laboratory test requisition.
      * Enforces Staff Authorization: Doctor, Nurse, Admin.
      */
+    @Operation(summary = "Order diagnostic laboratory test", description = "Requisitions pathology or radiology diagnostic test with clinical priority and instructions.")
     @PostMapping("/tests")
     @PreAuthorize("hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')")
     public ResponseEntity<ApiResponse<LabTestResponse>> orderTest(@Valid @RequestBody LabTestOrderRequest request) {

@@ -4,6 +4,8 @@ import com.hospital.management.dto.admission.*;
 import com.hospital.management.dto.common.ApiResponse;
 import com.hospital.management.dto.common.PagedResponse;
 import com.hospital.management.service.InpatientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+@Tag(name = "Admissions & Inpatient", description = "IPD bed allocation, room telemetry, ward transfers, and clinical discharge summaries")
 @RestController
 @RequestMapping("/api/inpatient")
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class InpatientController {
     // ROOM ENDPOINTS
     // =========================================================================
 
+    @Operation(summary = "Create inpatient room", description = "Creates a hospital ward room with room type, daily rate, and capacity.")
     @PostMapping("/rooms")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<RoomResponse>> createRoom(@Valid @RequestBody RoomRequest request) {

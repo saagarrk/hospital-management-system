@@ -9,6 +9,8 @@ import com.hospital.management.dto.patient.PatientStatusUpdateRequest;
 import com.hospital.management.enums.Gender;
 import com.hospital.management.enums.PatientStatus;
 import com.hospital.management.service.PatientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Patients", description = "Patient registration, EMR profile lifecycle, demographic updates, and medical history summary")
 @RestController
 @RequestMapping("/api/patients")
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class PatientController {
      * Accessible by ADMIN and RECEPTIONIST.
      * HTTP 201 Created.
      */
+    @Operation(summary = "Register new patient", description = "Creates a new patient demographic and medical record, generating a unique MRN / patient code.")
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<PatientResponse>> createPatient(@Valid @RequestBody PatientRequest request) {
@@ -43,6 +47,7 @@ public class PatientController {
      * Accessible by ADMIN, RECEPTIONIST, and DOCTOR.
      * HTTP 200 OK.
      */
+    @Operation(summary = "Update patient demographics", description = "Updates patient contact info, emergency contact, or clinical baseline info.")
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR')")
     public ResponseEntity<ApiResponse<PatientResponse>> updatePatient(
@@ -57,6 +62,7 @@ public class PatientController {
      * Accessible by clinical staff (ADMIN, RECEPTIONIST, DOCTOR, NURSE) and the PATIENT themselves (SRS Rule 9).
      * HTTP 200 OK.
      */
+    @Operation(summary = "Get patient by ID", description = "Retrieves patient profile with full demographics and emergency contacts.")
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE', 'PATIENT')")
     public ResponseEntity<ApiResponse<PatientResponse>> getPatientById(@PathVariable Long id) {
@@ -69,6 +75,7 @@ public class PatientController {
      * Accessible by clinical staff.
      * HTTP 200 OK.
      */
+    @Operation(summary = "Get patient by MRN code", description = "Retrieves patient profile by unique hospital registration number.")
     @GetMapping("/code/{code}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE')")
     public ResponseEntity<ApiResponse<PatientResponse>> getPatientByCode(@PathVariable String code) {
@@ -82,6 +89,7 @@ public class PatientController {
      * Supports filtering by status, biological gender, and blood group.
      * HTTP 200 OK.
      */
+    @Operation(summary = "Search patients with pagination", description = "Multi-criteria search by keyword, status, gender, blood group with Pageable.")
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE')")
     public ResponseEntity<ApiResponse<PagedResponse<PatientResponse>>> searchPatients(
@@ -106,6 +114,7 @@ public class PatientController {
      * Accessible by ADMIN and RECEPTIONIST.
      * HTTP 200 OK.
      */
+    @Operation(summary = "Update patient status", description = "Modifies patient lifecycle state between ACTIVE and INACTIVE.")
     @PatchMapping("/{id}/status")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<PatientResponse>> updatePatientStatus(
@@ -127,6 +136,7 @@ public class PatientController {
      * Accessible by ADMIN, DOCTOR, NURSE, and PATIENT (own record only).
      * HTTP 200 OK.
      */
+    @Operation(summary = "Get comprehensive clinical history", description = "Aggregates appointments, diagnoses, lab tests, prescriptions, and inpatient admissions.")
     @GetMapping("/{id}/history-summary")
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE', 'PATIENT')")
     public ResponseEntity<ApiResponse<PatientHistorySummaryResponse>> getPatientHistorySummary(@PathVariable Long id) {
@@ -139,6 +149,7 @@ public class PatientController {
      * Accessible by ADMIN only.
      * HTTP 200 OK.
      */
+    @Operation(summary = "Archive patient record", description = "Soft-deletes a patient record while preserving clinical history for regulatory audit.")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> deletePatient(@PathVariable Long id) {

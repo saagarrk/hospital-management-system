@@ -1,146 +1,564 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+/* =========================================================================
+   PROFESSIONAL HEALTHCARE PALETTE - SHREE JEEVAN HOSPITAL
+   ========================================================================= */
+
 :root {
-  --color-primary: #0F4C81;
-  --color-primary-hover: #0B3B65;
-  --color-secondary: #0E7490;
+  --color-primary: #0B5C75;
+  --color-primary-dark: #084C61;
+  --color-primary-light: #E6F4F7;
+  --color-secondary: #0F766E;
   --color-accent: #14B8A6;
-  --color-bg: #F5F9FC;
+  --color-bg: #F4F8FA;
   --color-surface: #FFFFFF;
-  --color-text: #0F172A;
-  --color-muted: #64748B;
-  --color-border: #E2E8F0;
+  --color-text: #172B4D;
+  --color-text-secondary: #64748B;
+  --color-border: #D9E5EA;
   --color-success: #16A34A;
   --color-warning: #D97706;
   --color-danger: #DC2626;
-  
+  --color-info: #0284C7;
+
+  /* Bootstrap core mappings */
+  --bs-primary: #0B5C75;
+  --bs-primary-rgb: 11, 92, 117;
+  --bs-secondary: #E6F4F7;
+  --bs-secondary-rgb: 230, 244, 247;
+  --bs-success: #16A34A;
+  --bs-success-rgb: 22, 163, 74;
+  --bs-warning: #D97706;
+  --bs-warning-rgb: 217, 119, 6;
+  --bs-danger: #DC2626;
+  --bs-danger-rgb: 220, 38, 38;
+  --bs-info: #0284C7;
+  --bs-info-rgb: 2, 132, 199;
+  --bs-body-bg: #F4F8FA;
+  --bs-body-color: #172B4D;
+  --bs-border-color: #D9E5EA;
+
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Bootstrap Theme Overrides for Healthcare Blue & Cyan */
-.bg-primary {
-  background-color: #0F4C81 !important;
-}
-
-.text-primary {
-  color: #0F4C81 !important;
-}
-
-.btn-primary {
-  background-color: #0F4C81 !important;
-  border-color: #0F4C81 !important;
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active {
-  background-color: #0B3B65 !important;
-  border-color: #0B3B65 !important;
-}
-
-.btn-outline-primary {
-  color: #0F4C81 !important;
-  border-color: #0F4C81 !important;
-}
-
-.btn-outline-primary:hover {
-  background-color: #0F4C81 !important;
-  border-color: #0F4C81 !important;
-  color: #FFFFFF !important;
-}
-
-.bg-teal {
-  background-color: #0E7490 !important;
-}
-
-.text-teal {
-  color: #0E7490 !important;
-}
-
+/* Base Body Styling */
 body {
   font-family: var(--font-family);
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: #F4F8FA !important;
+  color: #172B4D;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Modern Healthcare Palette Utilities */
+/* Global utility mappings */
+.bg-canvas,
+.bg-slate-50,
+.bg-light {
+  background-color: #F4F8FA !important;
+}
+
 .bg-surface {
-  background-color: var(--color-surface) !important;
+  background-color: #FFFFFF !important;
 }
 
-.bg-canvas {
-  background-color: var(--color-bg) !important;
-}
-
+.text-dark,
+.text-slate-900,
 .text-navy {
-  color: var(--color-text) !important;
+  color: #172B4D !important;
 }
 
+.text-muted,
+.text-slate-600,
+.text-slate-700,
 .text-muted-custom {
-  color: var(--color-muted) !important;
+  color: #64748B !important;
 }
 
+.border-slate-200,
 .border-subtle-custom {
-  border-color: var(--color-border) !important;
+  border-color: #D9E5EA !important;
 }
 
-.btn-primary-custom {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-  color: #ffffff;
+/* =========================================================================
+   BOOTSTRAP THEME OVERRIDES (Healthcare Teal/Blue)
+   ========================================================================= */
+
+.bg-primary {
+  background-color: #0B5C75 !important;
+}
+
+.text-primary {
+  color: #0B5C75 !important;
+}
+
+.border-primary {
+  border-color: #0B5C75 !important;
+}
+
+.bg-primary-subtle {
+  background-color: #E6F4F7 !important;
+  color: #0B5C75 !important;
+}
+
+.bg-teal {
+  background-color: #0F766E !important;
+}
+
+.text-teal {
+  color: #0F766E !important;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #0B5C75 !important;
+  border-color: #0B5C75 !important;
+  color: #FFFFFF !important;
   font-weight: 500;
   transition: all 0.15s ease-in-out;
 }
 
-.btn-primary-custom:hover,
-.btn-primary-custom:focus {
-  background-color: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
-  color: #ffffff;
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #084C61 !important;
+  border-color: #084C61 !important;
+  color: #FFFFFF !important;
 }
 
-.btn-teal-custom {
-  background-color: var(--color-secondary);
-  border-color: var(--color-secondary);
-  color: #ffffff;
+.btn-outline-primary {
+  color: #0B5C75 !important;
+  border-color: #0B5C75 !important;
+  font-weight: 500;
 }
 
-.btn-teal-custom:hover {
-  background-color: #115E59;
-  border-color: #115E59;
-  color: #ffffff;
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background-color: #0B5C75 !important;
+  border-color: #0B5C75 !important;
+  color: #FFFFFF !important;
 }
 
-/* Tabular figures for numbers, counters, timestamps */
-.font-mono,
-.tabular-nums {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
+.btn-secondary {
+  background-color: #E6F4F7 !important;
+  border-color: #E6F4F7 !important;
+  color: #0B5C75 !important;
+  font-weight: 500;
 }
 
-/* Sidebar Hover Styles */
-.hover-bg-light:hover {
-  background-color: #F1F5F9;
-  color: var(--color-text) !important;
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: #D0ECF1 !important;
+  border-color: #D0ECF1 !important;
+  color: #084C61 !important;
 }
 
-/* Card Subtle Elevations */
+.btn-outline-secondary {
+  border-color: #D9E5EA !important;
+  color: #475569 !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #F1F7F9 !important;
+  border-color: #0B5C75 !important;
+  color: #0B5C75 !important;
+}
+
+.btn-success {
+  background-color: #16A34A !important;
+  border-color: #16A34A !important;
+  color: #FFFFFF !important;
+}
+
+.btn-warning {
+  background-color: #D97706 !important;
+  border-color: #D97706 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-danger {
+  background-color: #DC2626 !important;
+  border-color: #DC2626 !important;
+  color: #FFFFFF !important;
+}
+
+/* =========================================================================
+   HEADER STYLING (Primary #0B5C75, Text #FFFFFF, Hover #E6F4F7)
+   ========================================================================= */
+
+.navbar-hospital-header {
+  background-color: #0B5C75 !important;
+  border-bottom: 1px solid #084C61 !important;
+  color: #FFFFFF !important;
+}
+
+.navbar-hospital-header a,
+.navbar-hospital-header .navbar-brand,
+.navbar-hospital-header .navbar-brand span,
+.navbar-hospital-header .text-white,
+.navbar-hospital-header .btn {
+  color: #FFFFFF !important;
+}
+
+.navbar-hospital-header svg {
+  color: #FFFFFF !important;
+}
+
+.navbar-hospital-header a:hover,
+.navbar-hospital-header .navbar-brand:hover,
+.navbar-hospital-header .nav-link:hover,
+.navbar-hospital-header .btn:hover {
+  color: #E6F4F7 !important;
+  background-color: rgba(230, 244, 247, 0.15) !important;
+}
+
+.navbar-hospital-header a:hover svg,
+.navbar-hospital-header button:hover svg,
+.navbar-hospital-header .btn:hover svg {
+  color: #E6F4F7 !important;
+}
+
+/* User Account & Notifications Dropdown within Header: Surface #FFFFFF, Text #172B4D, Border #D9E5EA */
+.navbar-hospital-header .dropdown-menu {
+  background-color: #FFFFFF !important;
+  border: 1px solid #D9E5EA !important;
+}
+
+.navbar-hospital-header .dropdown-item {
+  color: #172B4D !important;
+}
+
+.navbar-hospital-header .dropdown-item svg {
+  color: #64748B !important;
+}
+
+.navbar-hospital-header .dropdown-item:hover {
+  background-color: #F1F7F9 !important;
+  color: #0B5C75 !important;
+}
+
+.navbar-hospital-header .dropdown-item:hover svg {
+  color: #0B5C75 !important;
+}
+
+.navbar-hospital-header .dropdown-item.text-danger,
+.navbar-hospital-header .dropdown-item.text-danger svg {
+  color: #DC2626 !important;
+}
+
+.navbar-dark-search {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #FFFFFF !important;
+}
+
+.navbar-dark-search::placeholder {
+  color: #E6F4F7 !important;
+  opacity: 0.85;
+}
+
+.navbar-dark-search:focus {
+  background-color: #FFFFFF !important;
+  border-color: #14B8A6 !important;
+  color: #172B4D !important;
+  box-shadow: 0 0 0 0.2rem rgba(20, 184, 166, 0.25) !important;
+}
+
+/* =========================================================================
+   SIDEBAR THEME (Background #FFFFFF, Active #E6F4F7 / #0B5C75, Hover #F1F7F9)
+   ========================================================================= */
+
+aside,
+.sidebar-container {
+  background-color: #FFFFFF !important;
+  border-color: #D9E5EA !important;
+}
+
+.sidebar-nav-item {
+  color: #475569 !important;
+  background-color: transparent !important;
+  transition: all 0.15s ease-in-out;
+}
+
+.sidebar-nav-item svg {
+  color: #64748B !important;
+  transition: color 0.15s ease-in-out;
+}
+
+.sidebar-nav-item:hover {
+  background-color: #F1F7F9 !important;
+  color: #0B5C75 !important;
+}
+
+.sidebar-nav-item:hover svg {
+  color: #0B5C75 !important;
+}
+
+.sidebar-nav-item.active {
+  background-color: #E6F4F7 !important;
+  color: #0B5C75 !important;
+  font-weight: 600 !important;
+}
+
+.sidebar-nav-item.active svg {
+  color: #0B5C75 !important;
+}
+
+/* =========================================================================
+   DASHBOARD & CARDS (Surface #FFFFFF, Border #D9E5EA, Title #64748B, Value #172B4D)
+   ========================================================================= */
+
 .card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #D9E5EA !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  border-color: var(--color-border);
 }
 
 .hover-shadow:hover {
-  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
 }
 
-/* Auth split-screen visual background */
+.card-title,
+.card .card-title,
+.stat-title {
+  color: #64748B !important;
+}
+
+.card-value,
+.card .card-value,
+.stat-value {
+  color: #172B4D !important;
+}
+
+.card-header {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #D9E5EA !important;
+  color: #172B4D !important;
+}
+
+.card-footer {
+  background-color: #F4F8FA !important;
+  border-top: 1px solid #D9E5EA !important;
+}
+
+/* =========================================================================
+   TABLES (Header #E6F4F7, Header Text #084C61, Hover #F4FAFB)
+   ========================================================================= */
+
+.table {
+  --bs-table-bg: #FFFFFF;
+  --bs-table-striped-bg: #F8FAFC;
+  --bs-table-hover-bg: #F4FAFB;
+  --bs-table-hover-color: #172B4D;
+  --bs-table-color: #172B4D;
+  --bs-table-border-color: #D9E5EA;
+  background-color: #FFFFFF !important;
+  color: #172B4D !important;
+  border-color: #D9E5EA !important;
+}
+
+.table thead,
+.table thead th,
+.table-light,
+.table thead.table-light th,
+.table thead tr th,
+.table thead th button,
+.table thead th span {
+  background-color: #E6F4F7 !important;
+  color: #084C61 !important;
+  border-bottom: 1px solid #D9E5EA !important;
+  border-color: #D9E5EA !important;
+  font-weight: 600;
+}
+
+.table tbody {
+  background-color: #FFFFFF !important;
+}
+
+.table tbody tr {
+  background-color: #FFFFFF !important;
+  color: #172B4D !important;
+}
+
+.table tbody tr:hover,
+.table-hover tbody tr:hover,
+.table-hover > tbody > tr:hover > * {
+  background-color: #F4FAFB !important;
+}
+
+.table td, .table th {
+  border-color: #D9E5EA !important;
+  color: #172B4D;
+}
+
+/* =========================================================================
+   FORMS (Input BG #FFFFFF, Border #D9E5EA, Focus #14B8A6, Labels #334155)
+   ========================================================================= */
+
+.form-label,
+label {
+  color: #334155 !important;
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  background-color: #FFFFFF !important;
+  border-color: #D9E5EA !important;
+  color: #172B4D !important;
+}
+
+.input-group-text {
+  background-color: #F4F8FA !important;
+  border-color: #D9E5EA !important;
+  color: #64748B !important;
+}
+
+.form-control::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: #94A3B8 !important;
+  opacity: 1;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #FFFFFF !important;
+  border-color: #14B8A6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(20, 184, 166, 0.2) !important;
+  outline: 0;
+  color: #172B4D !important;
+}
+
+/* =========================================================================
+   CONSISTENT STATUS BADGES
+   ========================================================================= */
+
+.badge-status-success,
+.badge-status-paid,
+.badge-status-completed,
+.badge-status-available {
+  background-color: #DCFCE7 !important;
+  color: #166534 !important;
+  border: 1px solid #BBF7D0 !important;
+  font-weight: 600;
+}
+
+.badge-status-pending,
+.badge-status-maintenance {
+  background-color: #FEF3C7 !important;
+  color: #92400E !important;
+  border: 1px solid #FDE68A !important;
+  font-weight: 600;
+}
+
+.badge-status-cancelled,
+.badge-status-occupied {
+  background-color: #FEE2E2 !important;
+  color: #991B1B !important;
+  border: 1px solid #FECACA !important;
+  font-weight: 600;
+}
+
+.badge-status-confirmed {
+  background-color: #E0F2FE !important;
+  color: #075985 !important;
+  border: 1px solid #BAE6FD !important;
+  font-weight: 600;
+}
+
+.badge-status-inprogress {
+  background-color: #CCFBF1 !important;
+  color: #115E59 !important;
+  border: 1px solid #99F6E4 !important;
+  font-weight: 600;
+}
+
+/* Subtles fallback mappings */
+.bg-success-subtle {
+  background-color: #DCFCE7 !important;
+  color: #166534 !important;
+  border-color: #BBF7D0 !important;
+}
+
+.bg-warning-subtle {
+  background-color: #FEF3C7 !important;
+  color: #92400E !important;
+  border-color: #FDE68A !important;
+}
+
+.bg-danger-subtle {
+  background-color: #FEE2E2 !important;
+  color: #991B1B !important;
+  border-color: #FECACA !important;
+}
+
+.bg-info-subtle {
+  background-color: #E0F2FE !important;
+  color: #075985 !important;
+  border-color: #BAE6FD !important;
+}
+
+/* =========================================================================
+   MODALS (Modal #FFFFFF, Header #0B5C75, Header Text #FFFFFF)
+   ========================================================================= */
+
+.modal-content {
+  background-color: #FFFFFF !important;
+  border: 1px solid #D9E5EA !important;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.1) !important;
+}
+
+.modal-header {
+  background-color: #0B5C75 !important;
+  color: #FFFFFF !important;
+  border-bottom: 1px solid #084C61 !important;
+}
+
+.modal-header .modal-title,
+.modal-header h4,
+.modal-header h5,
+.modal-header h6 {
+  color: #FFFFFF !important;
+}
+
+.modal-header .btn-close {
+  filter: brightness(0) invert(1) !important;
+}
+
+.modal-footer {
+  background-color: #F4F8FA !important;
+  border-top: 1px solid #D9E5EA !important;
+}
+
+/* =========================================================================
+   SWEETALERT2 THEME OVERRIDES
+   ========================================================================= */
+
+.swal2-confirm {
+  background-color: #0B5C75 !important;
+  border-color: #0B5C75 !important;
+}
+
+.swal2-confirm:hover {
+  background-color: #084C61 !important;
+  border-color: #084C61 !important;
+}
+
+.swal2-popup {
+  border-radius: 0.75rem !important;
+  border: 1px solid #D9E5EA !important;
+  color: #172B4D !important;
+}
+
+/* =========================================================================
+   AUTH PAGES VISUALS (Branding Area #0B5C75 -> #084C61)
+   ========================================================================= */
+
 .auth-split-bg {
-  background: linear-gradient(135deg, #0F172A 0%, #0F766E 50%, #2563EB 100%);
+  background: linear-gradient(135deg, #0B5C75 0%, #084C61 100%) !important;
   position: relative;
   overflow: hidden;
 }
@@ -149,19 +567,16 @@ body {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
-/* Spin animation */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.spin {
-  animation: spin 1s linear infinite;
+/* Tabular figures for numbers, counters, timestamps */
+.font-mono,
+.tabular-nums {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Custom scrollbars */
@@ -178,4 +593,204 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
+}
+
+/* =========================================================================
+   MODERN MICRO-INTERACTIONS & INTERACTIVE STATES (150-300ms)
+   ========================================================================= */
+
+.btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Interactive Dashboard & Module Cards */
+.interactive-card {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -2px rgba(11, 92, 117, 0.12), 0 4px 6px -2px rgba(11, 92, 117, 0.06) !important;
+  border-color: #0B5C75 !important;
+}
+
+.interactive-card:active {
+  transform: translateY(0);
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+  border-bottom: 1px solid #D9E5EA;
+}
+
+.nav-tabs .nav-link {
+  color: #64748B;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #0B5C75;
+  border-bottom-color: #D9E5EA;
+}
+
+.nav-tabs .nav-link.active {
+  color: #0B5C75 !important;
+  border-bottom: 2px solid #0B5C75 !important;
+  background-color: transparent !important;
+  font-weight: 600;
+}
+
+/* Time Slot Selector */
+.time-slot-btn {
+  border: 1px solid #D9E5EA;
+  background-color: #FFFFFF;
+  color: #172B4D;
+  transition: all 0.15s ease;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.time-slot-btn:hover:not(:disabled) {
+  border-color: #0B5C75;
+  color: #0B5C75;
+  background-color: #E6F4F7;
+}
+
+.time-slot-btn.selected {
+  background-color: #0B5C75 !important;
+  border-color: #0B5C75 !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(11, 92, 117, 0.25);
+}
+
+.time-slot-btn:disabled {
+  background-color: #F8FAFC;
+  color: #94A3B8;
+  border-color: #E2E8F0;
+  cursor: not-allowed;
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+/* Notifications Interactive Dropdown */
+.notification-item {
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background-color: #F1F7F9 !important;
+}
+
+.notification-item.unread {
+  background-color: #F8FCFD;
+  border-left: 3px solid #0B5C75 !important;
+}
+
+/* Password Strength Meter */
+.password-strength-track {
+  height: 4px;
+  background-color: #E2E8F0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.password-strength-fill {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Skeleton Loading Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Spin animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* =========================================================================
+   RESPONSIVE ENHANCEMENTS
+   ========================================================================= */
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.table-responsive {
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.table-responsive table {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767.98px) {
+  .btn {
+    min-height: 38px;
+  }
+
+  .form-control, .form-select {
+    min-height: 40px;
+    font-size: 0.95rem;
+  }
+
+  .modal-dialog {
+    max-width: calc(100vw - 1rem) !important;
+    margin: 0.5rem auto !important;
+  }
+
+  .modal-content {
+    max-height: calc(100vh - 1rem);
+  }
+
+  .swal2-popup {
+    max-width: 92vw !important;
+    padding: 1.25rem 1rem !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .card-body {
+    padding: 1rem;
+  }
 }

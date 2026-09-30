@@ -47,18 +47,22 @@ export const Modal = ({
       >
         <div className="modal-content border-0 rounded-3 shadow-lg overflow-hidden">
           {/* Modal Header */}
-          <div className="modal-header bg-slate-50 border-bottom border-slate-200 p-3.5 d-flex align-items-center justify-content-between">
+          <div
+            className="modal-header text-white p-3.5 d-flex align-items-center justify-content-between"
+            style={{ backgroundColor: '#0B5C75', borderBottom: '1px solid #084C61' }}
+          >
             <div>
-              <h5 className="modal-title fs-6 fw-bold text-dark mb-0">{title}</h5>
-              {subtitle && <div className="text-muted small mt-0.5">{subtitle}</div>}
+              <h5 className="modal-title fs-6 fw-bold text-white mb-0">{title}</h5>
+              {subtitle && <div className="small mt-0.5" style={{ color: '#E6F4F7', opacity: 0.9 }}>{subtitle}</div>}
             </div>
             <button
               type="button"
-              className="btn btn-sm btn-light border-0 rounded-circle p-1.5 text-muted hover:text-dark"
+              className="btn btn-sm border-0 rounded-circle p-1.5 text-white"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
               onClick={onClose}
               aria-label="Close modal"
             >
-              <X size={18} />
+              <X size={18} color="#FFFFFF" />
             </button>
           </div>
 

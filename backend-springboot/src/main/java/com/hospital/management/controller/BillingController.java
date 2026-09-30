@@ -4,6 +4,8 @@ import com.hospital.management.dto.billing.*;
 import com.hospital.management.dto.common.ApiResponse;
 import com.hospital.management.dto.common.PagedResponse;
 import com.hospital.management.service.BillingService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Billing & Payments", description = "Consolidated invoicing, itemized line items, GST calculations, and multi-mode payment settlements")
 @RestController
 @RequestMapping("/api/billing")
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class BillingController {
 
     private final BillingService billingService;
 
+    @Operation(summary = "Generate new invoice", description = "Creates a consolidated hospital bill with line items, tax calculations, and discount rules.")
     @PostMapping("/bills")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<BillResponse>> createBill(@Valid @RequestBody BillCreateRequest request) {
@@ -30,6 +34,7 @@ public class BillingController {
         return new ResponseEntity<>(ApiResponse.created(response, "Invoice generated successfully"), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Add items to existing invoice", description = "Appends line items (services, medications, lab tests) with atomic recalculation.")
     @PostMapping("/bills/{id}/items")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<BillResponse>> addBillItems(
@@ -39,6 +44,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response, "Bill items added and invoice totals recalculated"));
     }
 
+    @Operation(summary = "Apply authorized discount", description = "Applies verified discount amount or percentage to outstanding invoice.")
     @PostMapping("/bills/{id}/discount")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<BillResponse>> applyDiscount(
@@ -48,6 +54,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response, "Authorized discount applied successfully"));
     }
 
+    @Operation(summary = "Process bill payment", description = "Credits payment against invoice, verifies payment limit, and transitions settlement state.")
     @PostMapping("/bills/{id}/payments")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<BillResponse>> recordPayment(
@@ -57,6 +64,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response, "Payment credited and receipt issued"));
     }
 
+    @Operation(summary = "Get bill payment history", description = "Lists all transaction receipts credited toward this invoice.")
     @GetMapping("/bills/{id}/payments")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'PATIENT')")
     public ResponseEntity<ApiResponse<List<PaymentResponse>>> getPaymentHistory(@PathVariable Long id) {
@@ -64,6 +72,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(responses));
     }
 
+    @Operation(summary = "Get invoice by ID", description = "Retrieves bill details, tax, line items, and current payment status.")
     @GetMapping("/bills/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'PATIENT')")
     public ResponseEntity<ApiResponse<BillResponse>> getBillById(@PathVariable Long id) {
@@ -71,6 +80,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
+    @Operation(summary = "Get printable invoice slip", description = "Retrieves itemized bill with hospital letterhead and tax summary.")
     @GetMapping("/bills/{id}/invoice")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'PATIENT', 'DOCTOR')")
     public ResponseEntity<ApiResponse<BillResponse>> getInvoice(@PathVariable Long id) {
@@ -78,6 +88,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response, "Invoice retrieved"));
     }
 
+    @Operation(summary = "Get bill by inpatient admission ID", description = "Retrieves consolidated IPD hospital stay bill.")
     @GetMapping("/bills/admission/{admissionId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'DOCTOR')")
     public ResponseEntity<ApiResponse<BillResponse>> getBillByAdmissionId(@PathVariable Long admissionId) {
@@ -85,6 +96,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
+    @Operation(summary = "Get bills by patient", description = "Lists all historical invoices and billing records for a patient.")
     @GetMapping("/bills/patient/{patientId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'PATIENT')")
     public ResponseEntity<ApiResponse<List<BillResponse>>> getBillsByPatient(@PathVariable Long patientId) {
@@ -92,6 +104,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(responses));
     }
 
+    @Operation(summary = "Get patient billing financial summary", description = "Aggregates total billed, total paid, and net balance across all patient invoices.")
     @GetMapping("/patient/{patientId}/summary")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST', 'PATIENT')")
     public ResponseEntity<ApiResponse<PatientBillingSummaryResponse>> getPatientBillingSummary(@PathVariable Long patientId) {
@@ -99,6 +112,7 @@ public class BillingController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
+    @Operation(summary = "Search bills with pagination", description = "Lists invoices with optional paymentStatus filter (PAID, PENDING, PARTIAL) and pagination.")
     @GetMapping("/bills")
     @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTIONIST')")
     public ResponseEntity<ApiResponse<PagedResponse<BillResponse>>> getAllBills(

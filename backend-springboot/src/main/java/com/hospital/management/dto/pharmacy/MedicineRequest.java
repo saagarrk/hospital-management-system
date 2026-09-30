@@ -39,10 +39,11 @@ public class MedicineRequest {
     private Integer minStockAlert;
 
     @NotNull(message = "Unit price is required")
-    @DecimalMin(value = "0.01", message = "Price must be greater than zero")
+    @Positive(message = "Unit price must be greater than zero")
     private BigDecimal unitPrice;
 
     @NotNull(message = "Expiry date is required")
+    @Future(message = "Medicine batch expiry date must be a future date")
     private LocalDate expiryDate;
 
     private String manufacturer;

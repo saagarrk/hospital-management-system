@@ -7,6 +7,8 @@ import com.hospital.management.dto.medicalrecord.MedicalRecordCreateRequest;
 import com.hospital.management.dto.medicalrecord.MedicalRecordResponse;
 import com.hospital.management.dto.medicalrecord.MedicalRecordUpdateRequest;
 import com.hospital.management.service.MedicalRecordService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import java.util.List;
  * Enterprise REST Controller for Clinical Medical Record Management (EMR).
  * Adheres to RFC standards, HIPAA role-based data protection, and clinical audit logging.
  */
+@Tag(name = "Medical Records", description = "Doctor clinical notes, ICD-10 diagnoses, vital signs observations, and immutable revision audits")
 @RestController
 @RequestMapping("/api/medical-records")
 @RequiredArgsConstructor
@@ -37,6 +40,7 @@ public class MedicalRecordController {
      * POST /api/medical-records : Create a clinical medical record
      * Requirement: Only authorized doctors can create medical records.
      */
+    @Operation(summary = "Create clinical medical record", description = "Authors an EMR consultation note with diagnoses, symptoms, vitals, and physician verification.")
     @PostMapping
     @PreAuthorize("hasAnyRole('DOCTOR', 'ADMIN')")
     public ResponseEntity<ApiResponse<MedicalRecordResponse>> createRecord(
@@ -57,6 +61,7 @@ public class MedicalRecordController {
      * PUT /api/medical-records/{id} : Amend/Update an existing medical record
      * Requirement: Prevent unauthorized modification.
      */
+    @Operation(summary = "Amend clinical record with audit log", description = "Applies clinical amendments with automated delta capture and versioned revision tracking.")
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('DOCTOR', 'ADMIN')")
     public ResponseEntity<ApiResponse<MedicalRecordResponse>> updateRecord(
@@ -75,6 +80,7 @@ public class MedicalRecordController {
      * GET /api/medical-records/{id} : Retrieve single medical record
      * Requirement: Authorized users can view records according to their role; Patients view only their own.
      */
+    @Operation(summary = "Get medical record by ID", description = "Retrieves a specific medical record with clinical notes, vitals, and treatment plan.")
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<MedicalRecordResponse>> getRecordById(
@@ -92,6 +98,7 @@ public class MedicalRecordController {
      * GET /api/medical-records/patient/{patientId} : Retrieve records for a patient
      * Requirement: Patients can view only their own records.
      */
+    @Operation(summary = "Get patient medical records", description = "Lists all historical consultation records and clinical encounters for a patient.")
     @GetMapping("/patient/{patientId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<List<MedicalRecordResponse>>> getRecordsByPatient(
@@ -109,6 +116,7 @@ public class MedicalRecordController {
      * GET /api/medical-records : Search and filter medical records with pagination
      * Requirement: Add search/filter by patient and date; Add pagination where appropriate.
      */
+    @Operation(summary = "Search medical records with pagination", description = "Search and filter clinical records by patient, doctor, date range, or keywords.")
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<PagedResponse<MedicalRecordResponse>>> searchMedicalRecords(
@@ -140,6 +148,7 @@ public class MedicalRecordController {
      * GET /api/medical-records/{id}/audit : Retrieve audit history trail
      * Requirement: Maintain history/audit information.
      */
+    @Operation(summary = "Get revision audit trail", description = "Retrieves the immutable revision audit trail of amendments made to this clinical record.")
     @GetMapping("/{id}/audit")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<List<MedicalRecordAuditDto>>> getRecordAuditHistory(

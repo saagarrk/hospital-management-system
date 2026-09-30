@@ -62,7 +62,7 @@ export const LoginPage = () => {
       });
       navigate(from, { replace: true });
     } catch (err) {
-      setErrorMessage(err.message || 'Invalid credentials. Please verify your hospital account details.');
+      setErrorMessage('Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -213,7 +213,7 @@ export const LoginPage = () => {
             <div className="mb-3">
               <div className="d-flex align-items-center justify-content-between mb-1">
                 <label className="form-label fw-semibold text-slate-700 small mb-0">Password</label>
-                <Link to="/forgot-password" className="text-primary text-decoration-none small fw-medium">
+                <Link to="/forgot-password" className="text-decoration-none small fw-medium" style={{ color: '#0F766E' }}>
                   Forgot Password?
                 </Link>
               </div>
@@ -266,7 +266,7 @@ export const LoginPage = () => {
               {loading ? (
                 <>
                   <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span>Signing In...</span>
+                  <span>Signing in...</span>
                 </>
               ) : (
                 <>
@@ -279,7 +279,7 @@ export const LoginPage = () => {
             {/* Register Link */}
             <div className="text-center text-muted small">
               Don't have an account?{' '}
-              <Link to="/register" className="text-primary fw-semibold text-decoration-none">
+              <Link to="/register" className="fw-semibold text-decoration-none" style={{ color: '#0F766E' }}>
                 Register as Patient
               </Link>
             </div>

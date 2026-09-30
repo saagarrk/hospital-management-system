@@ -1,5 +1,7 @@
 package com.hospital.management;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -12,11 +14,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class HospitalManagementApplication {
 
+    private static final Logger log = LoggerFactory.getLogger(HospitalManagementApplication.class);
+
     public static void main(String[] args) {
         SpringApplication.run(HospitalManagementApplication.class, args);
-        System.out.println("=================================================");
-        System.out.println(" MedPulse Hospital Management System API Online ");
-        System.out.println(" Connected to MySQL on port 8080                ");
-        System.out.println("=================================================");
+        log.info("MedPulse Hospital Management System REST API initialized successfully on port 8080.");
     }
 }

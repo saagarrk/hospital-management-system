@@ -128,6 +128,30 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("Should translate BadRequestException to HTTP 400 BAD_REQUEST")
+    void handleBadRequestException() {
+        BadRequestException ex = new BadRequestException("Invalid filter parameters");
+        ResponseEntity<ErrorResponse> response = exceptionHandler.handleBadRequestException(ex, request);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody().getStatus()).isEqualTo(400);
+        assertThat(response.getBody().getError()).isEqualTo("BAD_REQUEST");
+        assertThat(response.getBody().getMessage()).isEqualTo("Invalid filter parameters");
+    }
+
+    @Test
+    @DisplayName("Should translate UnauthorizedException to HTTP 401 UNAUTHORIZED")
+    void handleUnauthorizedException() {
+        UnauthorizedException ex = new UnauthorizedException("Session has expired");
+        ResponseEntity<ErrorResponse> response = exceptionHandler.handleUnauthorizedException(ex, request);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody().getStatus()).isEqualTo(401);
+        assertThat(response.getBody().getError()).isEqualTo("UNAUTHORIZED");
+        assertThat(response.getBody().getMessage()).isEqualTo("Session has expired");
+    }
+
+    @Test
     @DisplayName("Should translate MethodArgumentNotValidException into HTTP 400 with field errors map")
     void handleValidationExceptions() {
         BindingResult bindingResult = mock(BindingResult.class);

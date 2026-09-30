@@ -86,6 +86,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/actuator/health", "/error").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // 2. Admin Only Endpoints
@@ -107,7 +114,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/pharmacy/**").hasAnyRole("ADMIN", "PHARMACIST")
 
                         // 7. Laboratory & Pathology
-                        .requestMatchers("/api/laboratory/**").hasAnyRole("ADMIN", "DOCTOR", "LAB_TECHNICIAN")
+                        .requestMatchers("/api/laboratory/**", "/api/lab/**").hasAnyRole("ADMIN", "DOCTOR", "LAB_TECHNICIAN", "NURSE", "PATIENT")
 
                         // 8. Billing & Payments
                         .requestMatchers("/api/billing/**").hasAnyRole("ADMIN", "RECEPTIONIST", "PATIENT")

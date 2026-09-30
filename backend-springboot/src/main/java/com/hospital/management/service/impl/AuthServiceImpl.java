@@ -221,8 +221,12 @@ public class AuthServiceImpl implements AuthService {
 
         try {
             Date expiration = jwtService.extractExpiration(rawToken);
+            String username = jwtService.extractUsername(rawToken);
             tokenBlacklistService.blacklistToken(rawToken, expiration);
             log.info("Token successfully blacklisted for logout until {}", expiration);
+            if (username != null) {
+                auditLogService.recordEvent(username, "USER", "LOGOUT", "USER", null, "SUCCESS", "User session invalidated via token blacklist");
+            }
         } catch (Exception e) {
             log.warn("Could not extract token expiration during logout: {}", e.getMessage());
         }
